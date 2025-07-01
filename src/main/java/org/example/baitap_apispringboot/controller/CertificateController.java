@@ -7,6 +7,7 @@ import org.example.baitap_apispringboot.dto.req.CertificateReq;
 import org.example.baitap_apispringboot.dto.req.CertificateUpdateReq;
 import org.example.baitap_apispringboot.dto.res.CertificateRes;
 import org.example.baitap_apispringboot.entity.Certificate;
+import org.example.baitap_apispringboot.service.CertificateService;
 import org.example.baitap_apispringboot.service.CertificateServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class CertificateController {
-    CertificateServiceImpl certificateService;
+    CertificateService certificateService;
 
     @PostMapping("/createCertificateAchieved/{courseId}")
     public ResponseEntity<?> createCertificateAchieved(@PathVariable int courseId,@RequestBody CertificateReq certificateReq) {

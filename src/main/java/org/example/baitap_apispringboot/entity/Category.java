@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "category")
@@ -16,7 +18,10 @@ public class Category {
     @Column(name = "category_id",unique = true,nullable=false)
     private int category_id;
 
-    @Column(name = "name",nullable=true,columnDefinition = "VARCHAR(50)")
+    @Column(name = "name",nullable=false,columnDefinition = "VARCHAR(50)")
 
     private String name;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Course> courses;
 }

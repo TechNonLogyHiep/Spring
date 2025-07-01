@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import org.apache.coyote.Response;
 import org.example.baitap_apispringboot.dto.req.CateogryReq;
 import org.example.baitap_apispringboot.dto.res.CategoryRes;
+import org.example.baitap_apispringboot.service.CategoryService;
 import org.example.baitap_apispringboot.service.CategoryServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class CategoryController {
-    CategoryServiceImpl categoryService;
+    CategoryService categoryService;
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAll(){
