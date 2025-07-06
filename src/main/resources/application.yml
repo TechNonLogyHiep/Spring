@@ -1,12 +1,5 @@
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/api_dtn?createDatabaseIfNotExist=true
-    username: root
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
+  application:
+    name: baitap_apispringboot
+  profiles:
+    active: dev

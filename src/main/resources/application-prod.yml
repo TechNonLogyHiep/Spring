@@ -1,0 +1,12 @@
+
+spring:
+  datasource:
+    url: jdbc:mysql://prod-server:3306/prod_db
+    username: prod_user
+    password: prod_pass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQLDialect

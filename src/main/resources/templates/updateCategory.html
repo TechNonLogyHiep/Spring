@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cập nhật category</title>
+</head>
+<body>
+<h2>Sửa danh mục</h2>
+
+<form th:action="@{/category/update/{id}(id=${category.category_id})}" method="post">
+    <input type="hidden" name="category_id" th:value="${category.category_id}">
+    <div class="mb-3">
+        <label class="form-label">Tên danh mục</label>
+        <input type="text" name="name" class="form-control" th:value="${category.name}" required>
+    </div>
+    <button type="submit" class="btn btn-success">Cập nhật</button>
+    <a th:href="@{/category/getAll}" class="btn btn-secondary">Quay lại</a>
+</form>
+</body>
+</html>

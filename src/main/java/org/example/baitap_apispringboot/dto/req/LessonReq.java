@@ -22,5 +22,5 @@ public class LessonReq {
     @Column(name = "num_hours")
     @Min(value = 0,message = "INVALID_NUM_HOURS")
     private Integer numHours = 0;
-    int course_id;
+    Integer course_id;
 }

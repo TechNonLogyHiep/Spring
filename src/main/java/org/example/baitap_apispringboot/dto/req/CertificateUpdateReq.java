@@ -17,4 +17,5 @@ public class CertificateUpdateReq {
     String studentName;
     LocalDate issueDate;
     boolean achieved;
+    int course_id;
 }

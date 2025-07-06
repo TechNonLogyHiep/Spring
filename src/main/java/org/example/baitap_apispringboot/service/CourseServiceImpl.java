@@ -40,7 +40,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseRes addCourse(CourseReq courseReq) {
-        Category category = categoryRepository.findById(courseReq.getCategoryId()).orElseThrow(()
+        Category category = categoryRepository.findById(courseReq.getCategory_id()).orElseThrow(()
                 -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
         Course course = new Course();
         course.setName(courseReq.getName());
@@ -48,14 +48,15 @@ public class CourseServiceImpl implements CourseService {
         course.setNumHours(courseReq.getNumHours());
         course.setDescription(courseReq.getDescription());
         course.setCategory(category);
-        return modelMapper.map(courseRepository.save(course), CourseRes.class);
+        Course savedCourse = courseRepository.save(course);
+        return modelMapper.map(savedCourse, CourseRes.class);
     }
 
     @Override
     public CourseRes updateCourse(int id, CourseReq courseReq) {
         Course findToUpdate = courseRepository.findById(id).orElseThrow(()
                 -> new AppException(ErrorCode.COURSE_NOT_FOUND));
-        Category category = categoryRepository.findById(courseReq.getCategoryId()).orElseThrow(()
+        Category category = categoryRepository.findById(courseReq.getCategory_id()).orElseThrow(()
                 -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
         findToUpdate.setName(courseReq.getName());
         findToUpdate.setNumSessions(courseReq.getNumSessions());

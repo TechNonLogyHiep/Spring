@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Thêm Certitficate</h2>
+
+<form th:action="@{/certificate/add}" method="post">
+    <div class="mb-3">
+        <label class="form-label">Student name:</label>
+        <input type="text" class="form-control" name="studentName" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Issue Date:</label>
+        <input type="date" class="form-control" name="issueDate" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Type</label>
+        <select class="form-select" name="type" required>
+            <option value="ASSOCIATE">Associate</option>
+            <option value="PROFESSIONAL">Professional</option>
+            <option value="MASTER">Master</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Achieved?</label>
+        <select class="form-select" name="achieved">
+            <option value="true">Achieved</option>
+            <option value="false">Not Achieved</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Course Name:</label>
+        <select class="form-select" name="course_id" required>
+            <option th:each="course : ${courses}"
+                    th:value="${course.id}"
+                    th:text="${course.name}">
+            </option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Lưu</button>
+    <a th:href="@{/certificate/getAll}" class="btn btn-secondary">Quay lại</a>
+</form>
+</body>
+</html>

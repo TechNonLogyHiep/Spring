@@ -12,6 +12,4 @@ public interface CertificateService {
     CertificateRes create(CertificateReq req);
     CertificateRes update(int id, CertificateUpdateReq req);
     void delete(int id);
-    List<CertificateRes> getByCourseId(int courseId);
-    CertificateRes createCertificateAchieved(int courseId, CertificateReq req);
 }

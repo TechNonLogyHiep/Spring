@@ -11,40 +11,53 @@ import org.example.baitap_apispringboot.service.CategoryService;
 import org.example.baitap_apispringboot.service.CategoryServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/category")
+import java.util.List;
+
+@Controller
+@RequestMapping("/category")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> getAll(){
-        return ResponseEntity.ok(categoryService.findAll());
+    public String getAll(Model model) {
+        List<CategoryRes> categoryList = categoryService.findAll();
+        model.addAttribute("categoryList", categoryList);
+        return "categoryIndex";
     }
-    @GetMapping("/getById/{id}")
-    public ResponseEntity<?> getById(@PathVariable int id){
-        return ResponseEntity.ok(categoryService.findById(id));
+
+    @GetMapping("/edit/{id}")
+    public String getById(@PathVariable int id,Model model) {
+       CategoryRes categoryRes =  categoryService.findById(id);
+        model.addAttribute("category", categoryRes);
+       return "updateCategory";
     }
-    @PostMapping("/create")
-    public ResponseEntity<?> add(@RequestBody CateogryReq res){
+
+    @GetMapping("/create")
+    public String create(Model model) {
+        return "addFormCategory";
+    }
+
+    @PostMapping("/add")
+    public String add(@ModelAttribute CateogryReq res) {
         CategoryRes c = categoryService.save(res);
-        return ResponseEntity.ok(c);
+        return "redirect:/category/getAll";
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody CateogryReq res){
-        return ResponseEntity.ok(categoryService.update(id, res));
+
+    @PostMapping("/update/{id}")
+    public String update(@PathVariable int id, @ModelAttribute CateogryReq res) {
+        categoryService.update(id, res);
+        return "redirect:/category/getAll";
     }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable int id){
-        try {
-            categoryService.delete(id);
-            return new ResponseEntity<>("Deleted", HttpStatus.OK);
-        }
-        catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable int id) {
+        categoryService.delete(id);
+        return "redirect:/category/getAll";
     }
 }

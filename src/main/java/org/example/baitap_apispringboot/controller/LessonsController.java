@@ -5,41 +5,66 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.baitap_apispringboot.dto.req.LessonReq;
+import org.example.baitap_apispringboot.dto.res.LessonRes;
+import org.example.baitap_apispringboot.entity.Course;
+import org.example.baitap_apispringboot.repository.CourseRepository;
 import org.example.baitap_apispringboot.service.LessonsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/lessions")
+import java.util.List;
+
+@Controller
+@RequestMapping("/lessons")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class LessonsController {
     LessonsService lessonsService;
+    CourseRepository courseRepository;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getAll(@PathVariable int id) {
-        try {
-            return ResponseEntity.ok(lessonsService.getLessonById(id));
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    @GetMapping("/edit/{id}")
+    public String getById(@PathVariable int id, Model model) {
+        LessonRes lessons = lessonsService.getLessonById(id);
+        List<Course> courses = courseRepository.findAll();
+        model.addAttribute("courses", courses);
+        model.addAttribute("lessons", lessons);
+        return "editLesson";
+
     }
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@Valid @RequestBody LessonReq lessonReq){
-            return new ResponseEntity<>(lessonsService.createLesson(lessonReq), HttpStatus.CREATED);
+    @GetMapping("/create")
+    public String create(Model model) {
+        List<Course> courses = courseRepository.findAll();
+        model.addAttribute("courses", courses);
+        return "addLesson";
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@Valid @PathVariable int id, @RequestBody LessonReq lessonReq){
-            return new ResponseEntity<>(lessonsService.updateLesson(id, lessonReq), HttpStatus.OK);
+    @PostMapping("/add-to-course")
+    public String create(@Valid @ModelAttribute LessonReq lessonReq,Model model) {
+        LessonRes lesson = lessonsService.createLesson(lessonReq);
+        model.addAttribute("lesson",lesson);
+        return "redirect:/lessons/getAll";
+
     }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable int id){
-        try {
-            lessonsService.deleteLessonById(id);
-            return new ResponseEntity<>("Deleted Sucessfully!",HttpStatus.OK);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
+    @PostMapping("/update/{id}")
+    public String update(@Valid @PathVariable int id, @ModelAttribute LessonReq lessonReq) {
+        lessonsService.updateLesson(id, lessonReq);
+        return "redirect:/lessons/getAll";
+
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable int id) {
+        lessonsService.deleteLessonById(id);
+        return "redirect:/lessons/getAll";
+    }
+
+    @GetMapping("/getAll")
+    public String getAll(Model model) {
+        List<LessonRes> lessons = lessonsService.getAll();
+        model.addAttribute("lessons", lessons);
+        return "lessons";
     }
 }

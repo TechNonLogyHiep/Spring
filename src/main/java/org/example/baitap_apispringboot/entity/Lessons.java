@@ -31,7 +31,7 @@ public class Lessons {
     private Integer numHours = 0;
 
     @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false)
+    @JoinColumn(name = "course_id", nullable = true)
     private Course course;
 
 }

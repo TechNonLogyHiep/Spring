@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.baitap_apispringboot.dto.req.LessonReq;
 import org.example.baitap_apispringboot.dto.res.CategoryRes;
+import org.example.baitap_apispringboot.dto.res.CertificateRes;
 import org.example.baitap_apispringboot.dto.res.LessonRes;
 import org.example.baitap_apispringboot.entity.Category;
 import org.example.baitap_apispringboot.entity.Course;
@@ -15,6 +16,9 @@ import org.example.baitap_apispringboot.repository.CourseRepository;
 import org.example.baitap_apispringboot.repository.LessonsRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +35,12 @@ public class LessonsServiceImpl implements LessonsService {
     }
 
     @Override
+    public List<LessonRes> getAll() {
+        List<Lessons> lessonRes = lessonsRepository.findAll();
+        return lessonRes.stream().map(lessons -> modelMapper.map(lessons, LessonRes.class)).collect(Collectors.toList());
+    }
+
+    @Override
     public void deleteLessonById(int id) {
         Lessons findLesson = lessonsRepository.findById(id).orElseThrow(() ->
                 new AppException(ErrorCode.LESSONS_NOT_FOUND));
@@ -39,14 +49,17 @@ public class LessonsServiceImpl implements LessonsService {
 
     @Override
     public LessonRes createLesson(LessonReq lessonReq) {
-        Course course = courseRepository.findById(lessonReq.getCourse_id()).orElseThrow(
-                () -> new AppException(ErrorCode.COURSE_NOT_FOUND)
-        );
         Lessons lesson = new Lessons();
         lesson.setTitle(lessonReq.getTitle());
         lesson.setDescription(lessonReq.getDescription());
         lesson.setNumHours(lessonReq.getNumHours());
-        lesson.setCourse(course);
+        if(lessonReq.getCourse_id() != null){
+            Course course = courseRepository.findById(lessonReq.getCourse_id())
+                    .orElseThrow(() -> new AppException(ErrorCode.COURSE_NOT_FOUND));
+            lesson.setCourse(course);
+        } else {
+            lesson.setCourse(null);
+        }
         return modelMapper.map(lessonsRepository.save(lesson), LessonRes.class);
     }
 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Certificate</title>
+</head>
+<body>
+<h2>Cập nhật Chứng chỉ</h2>
+
+<form th:action="@{/certificate/update/{id}(id=${certificateRes.certificate_id})}"
+      th:object="${certificateRes}" method="post">
+  <input type="hidden" name="category_id" th:value="${certificateRes.certificate_id}">
+  <div class="mb-3">
+    <label class="form-label">Student name:</label>
+    <input type="text" class="form-control" th:field="*{studentName}" required />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Issue Date:</label>
+    <input type="date" class="form-control" th:field="*{issueDate}" required />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Type:</label>
+    <select class="form-select" th:field="*{type}" required>
+      <option value="ASSOCIATE">Associate</option>
+      <option value="PROFESSIONAL">Professional</option>
+      <option value="MASTER">Master</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Achieved?</label>
+    <select class="form-select" th:field="*{achieved}">
+      <option th:value="true">Achieved</option>
+      <option th:value="false">Not Achieved</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Course Name:</label>
+    <select class="form-select" name="course_id" required>
+      <option th:each="course : ${courses}"
+              th:value="${course.id}"
+              th:text="${course.name}"
+              th:selected="${course.name == certificateRes.courseName}">
+      >
+      </option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Cập nhật</button>
+  <a th:href="@{/certificate/getAll}" class="btn btn-secondary">Quay lại</a>
+</form>
+</body>
+</html>

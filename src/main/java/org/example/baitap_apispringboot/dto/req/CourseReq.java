@@ -14,14 +14,14 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseReq {
-    @Size(min = 2, max = 200,message = "INVALID_NAME_COURSE")
-     String name;
+    @Size(min = 2, max = 200, message = "INVALID_NAME_COURSE")
+    String name;
 
-    @Min(value = 0,message = "INVALID_NUM_SESSIONS")
-     Integer numSessions = 0;
+    @Min(value = 0, message = "INVALID_NUM_SESSIONS")
+    Integer numSessions = 0;
 
-    @Min(value = 0,message = "INVALID_NUM_HOURS")
-     Integer numHours = 0;
-     String description;
-    int categoryId;
+    @Min(value = 0, message = "INVALID_NUM_HOURS")
+    Integer numHours = 0;
+    String description;
+    Integer category_id;
 }

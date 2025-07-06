@@ -18,4 +18,5 @@ public class CertificateReq {
     CertificateType type;
     String studentName;
     LocalDate issueDate;
+    int course_id;
 }

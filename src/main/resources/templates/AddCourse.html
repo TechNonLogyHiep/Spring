@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h2>Thêm Course</h2>
+
+<form th:action="@{/course/add}" method="post">
+  <div class="mb-3">
+    <label class="form-label">Course Name:</label>
+    <input type="text" class="form-control" name="name" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Description:</label>
+    <input type="text" class="form-control" name="description" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Num hour:</label>
+    <input type="number" class="form-control" name="numHours" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Num sessions:</label>
+    <input type="number" class="form-control" name="numSessions" required>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Category Name:</label>
+    <select class="form-select" name="category_id" required>
+      <option th:each="category : ${categories}"
+              th:value="${category.category_id}"
+              th:text="${category.name}">
+      </option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-success">Lưu</button>
+  <a th:href="@{/course/getAll}" class="btn btn-secondary">Quay lại</a>
+</form>
+</body>
+</html>

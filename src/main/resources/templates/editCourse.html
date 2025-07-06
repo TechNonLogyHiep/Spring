@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Certificate</title>
+</head>
+<body>
+<h2>Cập nhật Chứng chỉ</h2>
+
+<form th:action="@{/course/update/{id}(id=${courseRes.id})}"
+      th:object="${courseRes}" method="post">
+  <input type="hidden" name="category_id" th:value="${courseRes.id}">
+  <div class="mb-3">
+    <label class="form-label">Course name:</label>
+    <input type="text" class="form-control" th:field="*{name}" required />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Description:</label>
+    <input type="text" class="form-control" th:field="*{description}" required />
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Issue Date:</label>
+    <input type="number" class="form-control" th:field="*{numHours}" required />
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Issue Date:</label>
+    <input type="number" class="form-control" th:field="*{numSessions}" required />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Category Name:</label>
+    <select class="form-select" name="category_id" required>
+      <option value="">-- Chọn category --</option>
+      <option th:each="category : ${categories}"
+              th:value="${category.category_id}"
+              th:text="${category.name}"
+              th:selected="${category.name == courseRes.categoryName}"
+      >
+      </option>
+    </select>
+  </div>
+
+
+  <button type="submit" class="btn btn-primary">Cập nhật</button>
+  <a th:href="@{/course/getAll}" class="btn btn-secondary">Quay lại</a>
+</form>
+</body>
+</html>
